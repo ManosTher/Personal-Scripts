@@ -19,18 +19,18 @@ fi
 # 1. Check if the module is currently loaded
 echo "[1/5] Checking if rtw88_8821ce is loaded..."
 if lsmod | grep -q rtw88_8821ce; then
-    echo "⚠️  Module is loaded. It will be blacklisted and removed after reboot."
+    echo "Module is loaded. It will be blacklisted and removed after reboot."
 else
-    echo "✅ Module is not loaded."
+    echo "Module is not loaded."
 fi
 
 # 2. Blacklist the module
 echo "[2/5] Blacklisting rtw88_8821ce module..."
 if [ -f /etc/modprobe.d/blacklist-rtw88.conf ]; then
-    echo "ℹ️  Blacklist file already exists."
+    echo "Blacklist file already exists."
 else
     echo "blacklist rtw88_8821ce" > /etc/modprobe.d/blacklist-rtw88.conf
-    echo "✅ Blacklist created."
+    echo "Blacklist created."
 fi
 
 # 3. Decompress firmware if needed
@@ -41,18 +41,18 @@ FW_XZ_FILE="/lib/firmware/rtw88/rtw8821c_fw.bin.xz"
 if [ -f "$FW_XZ_FILE" ] && [ ! -f "$FW_FILE" ]; then
     echo "Decompressing firmware..."
     unxz "$FW_XZ_FILE"
-    echo "✅ Firmware decompressed."
+    echo "Firmware decompressed."
 elif [ -f "$FW_FILE" ]; then
-    echo "✅ Firmware already decompressed."
+    echo "Firmware already decompressed."
 else
-    echo "❌ Firmware file not found!"
+    echo "Firmware file not found!"
     exit 1
 fi
 
 # 4. Rebuild initramfs
 echo "[4/5] Rebuilding initramfs (this may take a moment)..."
 dracut --force
-echo "✅ Initramfs rebuilt."
+echo "Initramfs rebuilt."
 
 # 5. Ask for reboot
 echo "[5/5] Done!"
